@@ -14,8 +14,10 @@
 		AFA789B41D1F358800ED1552 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFA789B21D1F358800ED1552 /* LaunchScreen.storyboard */; };
 		AFA789BF1D1F358800ED1552 /* BoidzTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA789BE1D1F358800ED1552 /* BoidzTests.swift */; };
 		AFA789CA1D1F358800ED1552 /* BoidzUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA789C91D1F358800ED1552 /* BoidzUITests.swift */; };
-		AFA789D81D1F362500ED1552 /* AgentSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA789D71D1F362500ED1552 /* AgentSystem.swift */; };
+		AFA789D81D1F362500ED1552 /* Simulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA789D71D1F362500ED1552 /* Simulation.swift */; };
 		AFA789DA1D1F865C00ED1552 /* Geometry+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA789D91D1F865C00ED1552 /* Geometry+Extensions.swift */; };
+		AFA789DC1D20344200ED1552 /* Agent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA789DB1D20344200ED1552 /* Agent.swift */; };
+		AFA789DE1D20498100ED1552 /* AgentNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA789DD1D20498100ED1552 /* AgentNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +51,10 @@
 		AFA789C51D1F358800ED1552 /* BoidzUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BoidzUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFA789C91D1F358800ED1552 /* BoidzUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoidzUITests.swift; sourceTree = "<group>"; };
 		AFA789CB1D1F358800ED1552 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AFA789D71D1F362500ED1552 /* AgentSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgentSystem.swift; sourceTree = "<group>"; };
+		AFA789D71D1F362500ED1552 /* Simulation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulation.swift; sourceTree = "<group>"; };
 		AFA789D91D1F865C00ED1552 /* Geometry+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Geometry+Extensions.swift"; sourceTree = "<group>"; };
+		AFA789DB1D20344200ED1552 /* Agent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Agent.swift; sourceTree = "<group>"; };
+		AFA789DD1D20498100ED1552 /* AgentNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgentNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +107,9 @@
 			children = (
 				AFA789A91D1F358800ED1552 /* AppDelegate.swift */,
 				AFA789AB1D1F358800ED1552 /* ViewController.swift */,
-				AFA789D71D1F362500ED1552 /* AgentSystem.swift */,
+				AFA789D71D1F362500ED1552 /* Simulation.swift */,
+				AFA789DB1D20344200ED1552 /* Agent.swift */,
+				AFA789DD1D20498100ED1552 /* AgentNode.swift */,
 				AFA789D91D1F865C00ED1552 /* Geometry+Extensions.swift */,
 				AFA789AD1D1F358800ED1552 /* Main.storyboard */,
 				AFA789B01D1F358800ED1552 /* Assets.xcassets */,
@@ -263,9 +269,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFA789AC1D1F358800ED1552 /* ViewController.swift in Sources */,
+				AFA789DE1D20498100ED1552 /* AgentNode.swift in Sources */,
+				AFA789DC1D20344200ED1552 /* Agent.swift in Sources */,
 				AFA789DA1D1F865C00ED1552 /* Geometry+Extensions.swift in Sources */,
 				AFA789AA1D1F358800ED1552 /* AppDelegate.swift in Sources */,
-				AFA789D81D1F362500ED1552 /* AgentSystem.swift in Sources */,
+				AFA789D81D1F362500ED1552 /* Simulation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +498,7 @@
 				AFA789D01D1F358800ED1552 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AFA789D11D1F358800ED1552 /* Build configuration list for PBXNativeTarget "BoidzTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +507,7 @@
 				AFA789D31D1F358800ED1552 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AFA789D41D1F358800ED1552 /* Build configuration list for PBXNativeTarget "BoidzUITests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +516,7 @@
 				AFA789D61D1F358800ED1552 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

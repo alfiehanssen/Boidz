@@ -74,7 +74,43 @@ extension CGVector
         
         return CGVector(dx: dx, dy: dy)
     }
+
+    // TODO: test this
+    static func boundMagnitude(vector vector: CGVector, max: CGFloat) -> CGVector
+    {
+        guard CGVector.magnitude(vector: vector) > max else
+        {
+            return vector
+        }
+        
+        var unitVector = CGVector.normalize(vector: vector)
+        unitVector = CGVector.multiply(vector: unitVector, scalar: max)
+        
+        return unitVector
+    }
+
+    // TODO: test this
+    static func boundMagnitude(vector vector: CGVector, min: CGFloat) -> CGVector
+    {
+        guard CGVector.magnitude(vector: vector) < min else
+        {
+            return vector
+        }
+        
+        var unitVector = CGVector.normalize(vector: vector)
+        unitVector = CGVector.multiply(vector: unitVector, scalar: min)
+        
+        return unitVector
+    }
     
+    // TODO: test this
+    static func boundMagnitude(vector vector: CGVector, min: CGFloat, max: CGFloat) -> CGVector
+    {
+        let boundedVector = CGVector.boundMagnitude(vector: vector, min: min)
+        
+        return CGVector.boundMagnitude(vector: boundedVector, max: max)
+    }
+
     static func divide(vector vector: CGVector, scalar: CGFloat) -> CGVector
     {
         assert(scalar != 0, "Attempt to divide by zero.")
@@ -101,6 +137,15 @@ extension CGVector
         let dy = vector.dy * scalar
         
         return CGVector(dx: dx, dy: dy)
+    }
+    
+    // TODO: test this
+    static func normalize(vector vector: CGVector) -> CGVector
+    {
+        let magnitude = CGVector.magnitude(vector: vector)
+        let unitVector = CGVector.divide(vector: vector, scalar: magnitude)
+        
+        return unitVector
     }
     
     static func subtract(v1 v1: CGVector, v2: CGVector) -> CGVector
