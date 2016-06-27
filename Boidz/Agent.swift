@@ -19,4 +19,20 @@ protocol Agent: Equatable
     var identifier: String { get set }
     var position: CGPoint { get set }
     var velocity: CGVector { get set }
+    var attributes: AgentAttributes { get set }
+}
+
+protocol AgentAttributes
+{
+    /// A value between 0 and 1
+    var alignmentWeight: CGFloat { get }
+
+    /// A value between 0 and 1
+    var cohesionWeight: CGFloat { get }
+    
+    var maxSeparation: CGFloat { get }
+    
+    var minSpeed: CGFloat { get }
+    
+    var maxSpeed: CGFloat { get }
 }

@@ -49,15 +49,21 @@ class ViewController: UIViewController, SKSceneDelegate
     
     private func setupSimulation()
     {
-        let agent1 = AgentNode(position: CGPoint(x: 0, y: 100), velocity: CGVector(dx: 1, dy: 2))
-        let agent2 = AgentNode(position: CGPoint(x: 10, y: 102), velocity: CGVector(dx: 1, dy: 1))
-        let agent3 = AgentNode(position: CGPoint(x: 20, y: 150), velocity: CGVector(dx: 0, dy: 2))
+        let position = CGPoint(x: 0, y: 100)
+        let velocity = CGVector(dx: 1, dy: 2)
+        let attributes = BirdAttributes()
+        
+        let agent1 = AgentNode(position: position, velocity: velocity, attributes: attributes)
+        let agent2 = AgentNode(position: position, velocity: velocity, attributes: attributes)
+        let agent3 = AgentNode(position: position, velocity: velocity, attributes: attributes)
         
         self.scene.addChild(agent1)
         self.scene.addChild(agent2)
         self.scene.addChild(agent3)
         
-        self.simulation = Simulation(agents: [agent1, agent2, agent3])
+        let bounds = self.view.bounds
+        let agents = [agent1, agent2, agent3]
+        self.simulation = Simulation(bounds: bounds, agents: agents)
     }
 
     // MARK: SKSceneDelegate
