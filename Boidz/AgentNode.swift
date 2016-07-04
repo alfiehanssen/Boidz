@@ -72,11 +72,11 @@ struct BirdAttributes: AgentAttributes
 {
     var alignmentWeight: CGFloat = 0.1
     var cohesionWeight: CGFloat = 0.01
-    var separationWeight: CGFloat = 0.25
+    var separationWeight: CGFloat = 0.1
     var boundingWeight: CGFloat = 0.5
     
-    var neighborhoodDistance: CGFloat = 50
+    var neighborhoodDistance: CGFloat = 40
     var maxSeparation: CGFloat = 20
-    var minSpeed: CGFloat = 1
-    var maxSpeed: CGFloat = 4
+    var minSpeed: CGFloat = 2
+    var maxSpeed: CGFloat = 5
 }

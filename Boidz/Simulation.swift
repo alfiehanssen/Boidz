@@ -32,6 +32,9 @@ class Simulation<T: Agent>
         let updatedAgents = self.agents.map { (agent) -> T in
             
             let neighbors = self.dynamicType.neighbors(agent: agent, agents: self.agents)
+            
+            // TODO: If neighborhood is empty, calculate wander. [AH] 7/4/2016
+            
             let velocity = self.velocityVector(agent: agent, neighbors: neighbors)
             let position = CGPoint.displace(point: agent.position, vector: velocity)
             
@@ -164,10 +167,10 @@ class Simulation<T: Agent>
         return cohesion
     }    
 
+    // TODO: Use obstacle avoidance vector instead? [AH] 7/4/2016
+    
     private static func boundingVector(agent agent: T, bounds: CGRect, boundaryAvoidance: CGFloat) -> CGVector
     {
-        // TODO: Inject this value? Make it stronger the further across the boundaries they are? [AH] 6/26/2016
-        
         var boundingVector = CGVector.zero
         
         if agent.position.x < bounds.origin.x
