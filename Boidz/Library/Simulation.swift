@@ -32,8 +32,13 @@ import CoreGraphics
 
 class Simulation<T: Agent>
 {
+    /// An unsigned scalar value used for the boundary vector dx/dy values shuold a bounding force be required.
     private let boundaryAvoidance: CGFloat = 10
+    
+    /// The physical bounds within which the simulation is conducted.
     private var bounds: CGRect
+    
+    /// The set of agents participating in the simulation.
     private var agents: [T]
     
     init(bounds: CGRect, agents: [T])
@@ -77,6 +82,14 @@ class Simulation<T: Agent>
     
     // MARK: Private API
     
+    /**
+     Given a set of agents and a unique member of that group, calculates the subset of agents within a certain proximity of this member.
+     
+     - parameter agent: The agent whose neighbors will be identified.
+     - parameter neighbors: The set of agents from which neighbors will be identified.
+
+     - returns: An array of neighboring agents.
+     */
     private static func neighbors(agent agent: T, agents: [T]) -> [T]
     {
         // TODO: Calculate neighbors using distance and field of view instead of just distance. [AH] 7/4/2016
@@ -97,6 +110,13 @@ class Simulation<T: Agent>
         return neighbors
     }
 
+    /**
+     Calculates the velocity vector for an individual agent without respect to neighbors. We compute the wander and bounding vectors. We add those together. And then clamp the resulting vector's magnitude by a min and max value.
+     
+     - parameter agent: The agent whose velocity should be calculated.
+     
+     - returns: The vector representing the new velocity (steering force) for the agent.
+     */
     private func velocityVector(agent agent: T) -> CGVector
     {
         let wander = self.dynamicType.wanderVector(agent: agent)
@@ -111,8 +131,8 @@ class Simulation<T: Agent>
     /**
      Calculates the velocity vector for an agent with respect to it's neighbors. We first determine the separation, alighment, cohesion, and bounding vectors. We add those together. And then clamp the resulting vector's magnitude by a min and max value.
      
-     - parameter agent: The agent whose velocity should be calculated.
-     - parameter neighbors: The neighboring agents to take into account when calculating the agent's velocity.
+     - parameter agent: The agent whose velocity vector should be calculated.
+     - parameter neighbors: The neighboring agents to take into account when performing this calculation.
      
      - returns: The vector representing the new velocity (steering force) for the agent.
      */
@@ -129,6 +149,13 @@ class Simulation<T: Agent>
         return velocity
     }
 
+    /**
+     Calculates the wander steering vector for an agent.
+     
+     - parameter agent: The agent whose wander vector should be calculated.
+     
+     - returns: The vector representing the wander steering force for the agent.
+     */
     private static func wanderVector(agent agent: T) -> CGVector
     {
         var wander = CGVector.zero
@@ -151,6 +178,14 @@ class Simulation<T: Agent>
 //    return force;
 //}
 
+    /**
+     Calculates the separation steering vector for an agent with respect to it's neighbors.
+     
+     - parameter agent: The agent whose separation vector should be calculated.
+     - parameter neighbors: The neighboring agents to take into account when performing this calculation.
+     
+     - returns: The vector representing the separation steering force for the agent.
+     */
     private static func separationVector(agent agent: T, agents: [T]) -> CGVector
     {
         var separation = CGVector.zero
@@ -176,6 +211,14 @@ class Simulation<T: Agent>
         return separation
     }
     
+    /**
+     Calculates the alignment steering vector for an agent with respect to it's neighbors.
+     
+     - parameter agent: The agent whose alignment vector should be calculated.
+     - parameter neighbors: The neighboring agents to take into account when performing this calculation.
+     
+     - returns: The vector representing the alignment steering force for the agent.
+     */
     private static func alignmentVector(agent agent: T, agents: [T]) -> CGVector
     {
         var alignment = CGVector.zero
@@ -205,6 +248,14 @@ class Simulation<T: Agent>
         return alignment
     }
     
+    /**
+     Calculates the cohesion steering vector for an agent with respect to it's neighbors.
+     
+     - parameter agent: The agent whose sohesion vector should be calculated.
+     - parameter neighbors: The neighboring agents to take into account when performing this calculation.
+     
+     - returns: The vector representing the sohesion steering force for the agent.
+     */
     private static func cohesionVector(agent agent: T, agents: [T]) -> CGVector
     {
         var center = CGPoint.zero
@@ -237,6 +288,15 @@ class Simulation<T: Agent>
 
     // TODO: Use obstacle avoidance vector instead? [AH] 7/4/2016
     
+    /**
+     Calculates the bounding steering vector for an agent with respect to the bounds of its environment. This force causes the agent to direct itself away from the environment's boundaries when it encounters them.
+     
+     - parameter agent: The agent whose separation vector should be calculated.
+     - parameter bounds: The bounds of the agent's environment.
+     - parameter boundaryAvoidance: An unsigned scalar value used as the bounding force's components.
+     
+     - returns: The vector representing the bounding steering force for the agent.
+     */
     private static func boundingVector(agent agent: T, bounds: CGRect, boundaryAvoidance: CGFloat) -> CGVector
     {
         var boundingVector = CGVector.zero
@@ -245,8 +305,7 @@ class Simulation<T: Agent>
         {
             boundingVector.dx = boundaryAvoidance
         }
-        
-        if agent.position.x > bounds.origin.x + bounds.size.width
+        else if agent.position.x > bounds.origin.x + bounds.size.width
         {
             boundingVector.dx = -boundaryAvoidance
         }
@@ -255,8 +314,7 @@ class Simulation<T: Agent>
         {
             boundingVector.dy = boundaryAvoidance
         }
-        
-        if agent.position.y > bounds.origin.y + bounds.size.height
+        else if agent.position.y > bounds.origin.y + bounds.size.height
         {
             boundingVector.dy = -boundaryAvoidance
         }
