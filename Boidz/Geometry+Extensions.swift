@@ -50,7 +50,7 @@ extension CGPoint
     
     static func divide(point point: CGPoint, scalar: CGFloat) -> CGPoint
     {
-        assert(scalar != 0, "Attempt to divide by zero.")
+        assert(scalar != 0, "Attempt to divide point by 0.")
         
         let x = point.x / scalar
         let y = point.y / scalar
@@ -113,11 +113,7 @@ extension CGVector
 
     static func divide(vector vector: CGVector, scalar: CGFloat) -> CGVector
     {
-//        assert(scalar != 0, "Attempt to divide by zero.")
-        if scalar == 0
-        {
-            return vector
-        }
+        assert(scalar != 0, "Attempt to divide vector by 0.")
         
         let dx = vector.dx / scalar
         let dy = vector.dy / scalar

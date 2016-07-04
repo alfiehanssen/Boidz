@@ -35,7 +35,9 @@ protocol AgentAttributes
 
     /// A value between 0 and 1
     var boundingWeight: CGFloat { get }
-
+    
+    var neighborhoodDistance: CGFloat { get }
+    
     var maxSeparation: CGFloat { get }
     
     var minSpeed: CGFloat { get }

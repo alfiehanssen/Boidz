@@ -70,10 +70,12 @@ class AgentNode: SKShapeNode, Agent
 
 struct BirdAttributes: AgentAttributes
 {
-    var alignmentWeight: CGFloat = 0.125
+    var alignmentWeight: CGFloat = 0.1
     var cohesionWeight: CGFloat = 0.01
     var separationWeight: CGFloat = 0.25
     var boundingWeight: CGFloat = 0.5
+    
+    var neighborhoodDistance: CGFloat = 50
     var maxSeparation: CGFloat = 20
     var minSpeed: CGFloat = 1
     var maxSpeed: CGFloat = 4

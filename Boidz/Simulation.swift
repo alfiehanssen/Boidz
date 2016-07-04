@@ -49,9 +49,22 @@ class Simulation<T: Agent>
     
     private static func neighbors(agent agent: T, agents: [T]) -> [T]
     {
-        // Distance and field of view
+        // TODO: Distance and field of view instead of just distance.
+
+        var neighbors = [T]()
         
-        return agents // TODO: Add the notion of neighborhood. [AH] 6/26/2016
+        for neighbor in agents
+        {
+            let displacement = CGPoint.displacementVector(from: agent.position, to: neighbor.position)
+            let distance = CGVector.magnitude(vector: displacement)
+            
+            if distance < agent.attributes.neighborhoodDistance
+            {
+                neighbors.append(neighbor)
+            }
+        }
+        
+        return neighbors
     }
     
     private func velocityVector(agent agent: T, neighbors: [T]) -> CGVector
@@ -109,7 +122,11 @@ class Simulation<T: Agent>
             alignment = CGVector.add(vectors: alignment, currentAgent.velocity)
         }
         
-        alignment = CGVector.divide(vector: alignment, scalar: CGFloat(scalar))
+        if scalar != 0 // Avoid divide by 0 attempts
+        {
+            alignment = CGVector.divide(vector: alignment, scalar: CGFloat(scalar))
+        }
+        
         alignment = CGVector.subtract(v1: alignment, v2: agent.velocity)
         alignment = CGVector.normalize(vector: alignment)
         alignment = CGVector.multiply(vector: alignment, scalar: agent.attributes.alignmentWeight)
@@ -134,7 +151,11 @@ class Simulation<T: Agent>
             center = CGPoint.add(points: center, currentAgent.position)
         }
         
-        let target = CGPoint.divide(point: center, scalar: CGFloat(scalar))
+        var target = center
+        if scalar != 0 // Avoid divide by 0 attempts
+        {
+            target = CGPoint.divide(point: target, scalar: CGFloat(scalar))
+        }
         
         var cohesion = CGPoint.displacementVector(from: agent.position, to: target)
         cohesion = CGVector.normalize(vector: cohesion)
@@ -169,9 +190,12 @@ class Simulation<T: Agent>
             boundingVector.dy = -boundaryAvoidance
         }
         
-        boundingVector = CGVector.normalize(vector: boundingVector)
-        boundingVector = CGVector.multiply(vector: boundingVector, scalar: agent.attributes.boundingWeight)
-
+        if boundingVector != .zero // Avoid divide by 0 attempts
+        {
+            boundingVector = CGVector.normalize(vector: boundingVector)
+            boundingVector = CGVector.multiply(vector: boundingVector, scalar: agent.attributes.boundingWeight)
+        }
+        
         return boundingVector
     }
 }
