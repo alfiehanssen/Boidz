@@ -75,7 +75,6 @@ extension CGVector
         return CGVector(dx: dx, dy: dy)
     }
 
-    // TODO: test this
     static func boundMagnitude(vector vector: CGVector, max: CGFloat) -> CGVector
     {
         guard CGVector.magnitude(vector: vector) > max else
@@ -89,7 +88,6 @@ extension CGVector
         return unitVector
     }
 
-    // TODO: test this
     static func boundMagnitude(vector vector: CGVector, min: CGFloat) -> CGVector
     {
         guard CGVector.magnitude(vector: vector) < min else
@@ -103,7 +101,6 @@ extension CGVector
         return unitVector
     }
     
-    // TODO: test this
     static func boundMagnitude(vector vector: CGVector, min: CGFloat, max: CGFloat) -> CGVector
     {
         let boundedVector = CGVector.boundMagnitude(vector: vector, min: min)
@@ -139,7 +136,6 @@ extension CGVector
         return CGVector(dx: dx, dy: dy)
     }
     
-    // TODO: test this
     static func normalize(vector vector: CGVector) -> CGVector
     {
         let magnitude = CGVector.magnitude(vector: vector)

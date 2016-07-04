@@ -11,18 +11,6 @@ import XCTest
 
 class BoidzTests: XCTestCase
 {
-    override func setUp()
-    {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown()
-    {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-
     func testPointAddition()
     {
         let p1 = CGPoint(x: 2, y: 2)
@@ -87,7 +75,62 @@ class BoidzTests: XCTestCase
         XCTAssert(sumVector.dx == 10, "dx is expected to be 10")
         XCTAssert(sumVector.dy == 13, "dy is expected to be 13")
     }
-    
+
+    func testMagnitudeBoundingMin()
+    {
+        let vector = CGVector(dx: 0, dy: 5)
+        let min: CGFloat = 10
+        
+        let magnitude = CGVector.magnitude(vector: vector)
+        XCTAssert(magnitude < min, "To test properly, original magnitude must be less than the min magnitude.")
+        
+        let boundVector = CGVector.boundMagnitude(vector: vector, min: min)
+        let newMagnitude = CGVector.magnitude(vector: boundVector)
+
+        XCTAssert(newMagnitude >= min, "Bound magnitude is expected to be greater than or equal to the minimum.")
+    }
+
+    func testMagnitudeBoundingMax()
+    {
+        let vector = CGVector(dx: 0, dy: 5)
+        let max: CGFloat = 3
+
+        let magnitude = CGVector.magnitude(vector: vector)
+        XCTAssert(magnitude > max, "To test properly, original magnitude must be greater than the max magnitude.")
+
+        let boundVector = CGVector.boundMagnitude(vector: vector, max: max)
+        let newMagnitude = CGVector.magnitude(vector: boundVector)
+
+        XCTAssert(newMagnitude <= max, "Bound magnitude is expected to be less than or equal to the maximum.")
+    }
+
+    func testMagnitudeBoundingMinMax()
+    {
+        let vector = CGVector(dx: 0, dy: 5)
+        var min: CGFloat = 10
+        var max: CGFloat = 15
+        
+        let magnitude = CGVector.magnitude(vector: vector)
+        XCTAssert(magnitude < min, "To test properly, original magnitude must be less than the min magnitude.")
+
+        var boundVector = CGVector.boundMagnitude(vector: vector, min: min, max: max)
+        var newMagnitude = CGVector.magnitude(vector: boundVector)
+
+        XCTAssert(newMagnitude >= min, "Bound magnitude is expected to be greater than or equal to the minimum.")
+        XCTAssert(newMagnitude <= max, "Bound magnitude is expected to be less than or equal to the maximum.")
+
+        min = 0
+        max = 2
+        
+        XCTAssert(magnitude > max, "To test properly, original magnitude must be greater than the max magnitude.")
+
+        boundVector = CGVector.boundMagnitude(vector: vector, min: min, max: max)
+        newMagnitude = CGVector.magnitude(vector: boundVector)
+        
+        XCTAssert(newMagnitude >= min, "Bound magnitude is expected to be greater than or equal to the minimum.")
+        XCTAssert(newMagnitude <= max, "Bound magnitude is expected to be less than or equal to the maximum.")
+    }
+
     func testVectorDivision()
     {
         let vector = CGVector(dx: 2, dy: 5)
@@ -117,6 +160,16 @@ class BoidzTests: XCTestCase
         
         XCTAssert(scaledVector.dx == 0, "dx is expected to be 0")
         XCTAssert(scaledVector.dy == 20, "dy is expected to be 20")
+    }
+    
+    func testVectorNormalization()
+    {
+        let vector = CGVector(dx: 0, dy: 5)
+        
+        let unitVector = CGVector.normalize(vector: vector)
+        let magnitude = CGVector.magnitude(vector: unitVector)
+        
+        XCTAssert(magnitude == 1, "Magnitude of the unit vector is expected to be 1.")
     }
 
     func testVectorSubtraction()
