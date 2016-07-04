@@ -51,9 +51,16 @@ class Simulation<T: Agent>
             
             let neighbors = self.dynamicType.neighbors(agent: agent, agents: self.agents)
             
-            // TODO: If neighborhood is empty, calculate wander. [AH] 7/4/2016
+            var velocity: CGVector
+            if neighbors.count == 0
+            {
+                velocity = self.velocityVector(agent: agent)
+            }
+            else
+            {
+                velocity = self.velocityVector(agent: agent, neighbors: neighbors)
+            }
             
-            let velocity = self.velocityVector(agent: agent, neighbors: neighbors)
             let position = CGPoint.displace(point: agent.position, vector: velocity)
             
             var updatedAgent = agent
@@ -70,7 +77,7 @@ class Simulation<T: Agent>
     
     private static func neighbors(agent agent: T, agents: [T]) -> [T]
     {
-        // TODO: Distance and field of view instead of just distance.
+        // TODO: Calculate neighbors using distance and field of view instead of just distance. [AH] 7/4/2016
 
         var neighbors = [T]()
         
@@ -79,7 +86,7 @@ class Simulation<T: Agent>
             let displacement = CGPoint.displacementVector(from: agent.position, to: neighbor.position)
             let distance = CGVector.magnitude(vector: displacement)
             
-            if distance < agent.attributes.neighborhoodDistance
+            if distance < agent.attributes.neighborhoodRadius
             {
                 neighbors.append(neighbor)
             }
@@ -87,12 +94,23 @@ class Simulation<T: Agent>
         
         return neighbors
     }
-    
+
+    private func velocityVector(agent agent: T) -> CGVector
+    {
+        let wander = self.dynamicType.wanderVector(agent: agent)
+        let bounding = self.dynamicType.boundingVector(agent: agent, bounds: self.bounds, boundaryAvoidance: self.boundaryAvoidance)
+        
+        var velocity = CGVector.add(vectors: agent.velocity, wander, bounding)
+        velocity = CGVector.boundMagnitude(vector: velocity, min: agent.attributes.minSpeed, max: agent.attributes.maxSpeed)
+        
+        return velocity
+    }
+
     private func velocityVector(agent agent: T, neighbors: [T]) -> CGVector
     {
         let separation = self.dynamicType.separationVector(agent: agent, agents: neighbors)
         let alignment = self.dynamicType.alignmentVector(agent: agent, agents: neighbors)
-        let cohesion = self.dynamicType.cohesionVector(agent: agent, agents: neighbors)        
+        let cohesion = self.dynamicType.cohesionVector(agent: agent, agents: neighbors)
         let bounding = self.dynamicType.boundingVector(agent: agent, bounds: self.bounds, boundaryAvoidance: self.boundaryAvoidance)
         
         var velocity = CGVector.add(vectors: agent.velocity, separation, alignment, cohesion, bounding)
@@ -100,6 +118,28 @@ class Simulation<T: Agent>
         
         return velocity
     }
+
+    private static func wanderVector(agent agent: T) -> CGVector
+    {
+        var wander = CGVector.zero
+
+        return wander
+    }
+    
+//- (CGPoint)wanderingForce
+//{
+//    CGPoint n = CGPointMake( (float)random() / RAND_MAX, (float)random() / RAND_MAX );
+//    n = ccpSub(n, ccp(.5, .5));
+//    n = ccpNormalize(n);
+//
+//    CGPoint r_noise = ccpMult(n, ((AnimalSpecies *)self.species).k_noise);
+//
+//    CGPoint force = ccpAdd(self.previousWander, r_noise);
+//    force = ccpMult( ccpNormalize(force), ((AnimalSpecies *)self.species).k_wander);
+//    force = ccpAdd(self.velocity, force);
+//    
+//    return force;
+//}
 
     private static func separationVector(agent agent: T, agents: [T]) -> CGVector
     {
@@ -115,7 +155,7 @@ class Simulation<T: Agent>
             var displacement = CGPoint.displacementVector(from: agent.position, to: currentAgent.position)
             let distance = CGVector.magnitude(vector: displacement)
             
-            if distance < agent.attributes.maxSeparation
+            if distance < agent.attributes.minSeparation
             {
                 displacement = CGVector.normalize(vector: displacement)
                 displacement = CGVector.multiply(vector: displacement, scalar: agent.attributes.separationWeight)

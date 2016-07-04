@@ -27,38 +27,52 @@
 import Foundation
 import CoreGraphics
 
+/// An overload of the == operator that specifies how agent equality is evaluated.
 func ==<T: Agent>(lhs: T, rhs: T) -> Bool
 {
     return lhs.identifier == rhs.identifier
 }
 
+/// A protocol that defines the basic operties of an autonymous agent.
 protocol Agent: Equatable
 {
+    /// A unique identifier used to test agent equality.
     var identifier: String { get set }
+    
+    /// The position of the agent.
     var position: CGPoint { get set }
+
+    /// The velocity of the agent.
     var velocity: CGVector { get set }
+    
+    /// A set of attributes that define how the agent navigates in space.
     var attributes: AgentAttributes { get set }
 }
 
+/// A protocol that defines a set of attributes that determine how an autonymous agent navigates in space.
 protocol AgentAttributes
 {
-    /// A value between 0 and 1
+    /// A value between 0 and 1. An agent's alignment vector is multiplied by this weight to achieve a dampened alignment.
     var alignmentWeight: CGFloat { get }
 
-    /// A value between 0 and 1
+    /// A value between 0 and 1. An agent's cohesion vector is multiplied by this weight to achieve a dampened cohesion.
     var cohesionWeight: CGFloat { get }
     
-    /// A value between 0 and 1
+    /// A value between 0 and 1. An agent's separation vector is multiplied by this weight to achieve a dampened separation.
     var separationWeight: CGFloat { get }
 
-    /// A value between 0 and 1
+    /// A value between 0 and 1.
     var boundingWeight: CGFloat { get }
     
-    var neighborhoodDistance: CGFloat { get }
+    /// The radius of a circle with center equal to the agent's position. This circle represents the agent's field of awareness.
+    var neighborhoodRadius: CGFloat { get }
     
-    var maxSeparation: CGFloat { get }
+    /// The distance an agent can be to a neighbor before it begins to navigate away from the neighbor (via a separation vector).
+    var minSeparation: CGFloat { get }
     
+    /// The minimum speed an agent can be moving. The velocity vector is clamped against this value.
     var minSpeed: CGFloat { get }
     
+    /// The maximum speed an agent can be moving. The velocity vector is clamped against this value.
     var maxSpeed: CGFloat { get }
 }
