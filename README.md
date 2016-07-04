@@ -18,3 +18,5 @@ It uses [SpriteKit](https://developer.apple.com/spritekit/) for a 2D representat
 
 This is a simplified and Swift-ified version of the AI I used to create the [Pangea Safari ecosystem simulation game](http://www.tembostudio.com/) pictured here:
 
+![pangea-safari](https://cloud.githubusercontent.com/assets/991059/16565484/81d8db7e-41db-11e6-9fef-6382753c9135.png)
+
