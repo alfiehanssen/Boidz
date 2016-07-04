@@ -11,6 +11,8 @@ import SpriteKit
 
 class ViewController: UIViewController, SKSceneDelegate
 {
+    private static let NumberOfAgents = 10
+    
     private var simulation: Simulation<AgentNode>!
     private var scene: SKScene!
     
@@ -53,7 +55,7 @@ class ViewController: UIViewController, SKSceneDelegate
         
         var agents = [AgentNode]()
         
-        for i in 0...10
+        for i in 0...self.dynamicType.NumberOfAgents
         {
             let position = CGPoint(x: i, y: 10)
             let velocity = CGVector(dx: i, dy: 3)
