@@ -108,6 +108,14 @@ class Simulation<T: Agent>
         return velocity
     }
 
+    /**
+     Calculates the velocity vector for an agent with respect to it's neighbors. We first determine the separation, alighment, cohesion, and bounding vectors. We add those together. And then clamp the resulting vector's magnitude by a min and max value.
+     
+     - parameter agent: The agent whose velocity should be calculated.
+     - parameter neighbors: The neighboring agents to take into account when calculating the agent's velocity.
+     
+     - returns: The vector representing the new velocity (steering force) for the agent.
+     */
     private func velocityVector(agent agent: T, neighbors: [T]) -> CGVector
     {
         let separation = self.dynamicType.separationVector(agent: agent, agents: neighbors)
