@@ -1,8 +1,6 @@
-# Boidz
+# Boidz :bird: :bird: :bird:  
 
 A Swift implementation of Craig Reynolds' ["Steering Behaviors For Autonomous Characters"](http://www.red3d.com/cwr/steer/) aka Boids.
-
-:bird: :bird: :bird:  
 
 This implementation includes the following behaviors:
 
