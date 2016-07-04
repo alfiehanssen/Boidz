@@ -160,6 +160,8 @@ class Simulation<T: Agent>
     {
         var wander = CGVector.zero
 
+        // TODO: Calculate the wander force. [AH] 7/4/2016
+        
         return wander
     }
     
