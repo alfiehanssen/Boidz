@@ -8,8 +8,8 @@ This implementation includes the following behaviors:
 2. [Cohesion](http://www.red3d.com/cwr/boids/)  
 3. [Alignment](http://www.red3d.com/cwr/boids/)  
 4. Bounding  
-5. Coming soon: [Wander](http://www.red3d.com/cwr/steer/Wander.html)  
-6. Coming soon: [Obstacle Avoidance](http://www.red3d.com/cwr/steer/Obstacle.html)
+5. [Wander](http://www.red3d.com/cwr/steer/Wander.html) (coming soon)  
+6. [Obstacle Avoidance](http://www.red3d.com/cwr/steer/Obstacle.html) (coming soon)
 
 It uses [SpriteKit](https://developer.apple.com/spritekit/) for a 2D representation of the simulation. 
 
