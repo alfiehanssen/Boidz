@@ -29,6 +29,13 @@ import CoreGraphics
 
 extension CGPoint
 {
+    /**
+     Calculates the sum of a list of points.
+     
+     - parameter points: The list of points that will be summed.
+     
+     - returns: The point resulting from having summed all input `points`.
+     */
     static func add(points points: CGPoint...) -> CGPoint
     {
         var x: CGFloat = 0
@@ -43,6 +50,14 @@ extension CGPoint
         return CGPoint(x: x, y: y)
     }
 
+    /**
+     Displaces a point by a vector.
+     
+     - parameter point: The point to displace.
+     - parameter vector: The vector used to displace the point.
+     
+     - returns: The point resulting from displacing `point` by `vector`.
+     */
     static func displace(point point: CGPoint, vector: CGVector) -> CGPoint
     {
         let x = point.x + vector.dx
@@ -51,6 +66,14 @@ extension CGPoint
         return CGPoint(x: x, y: y)
     }
  
+    /**
+     Calculates the displacement vector between two points.
+     
+     - parameter from: The origin point of the displacement vector.
+     - parameter to: The termination point of the displacement vector.
+     
+     - returns: The vector that represents the displacement of `to` with respect to `from`.
+     */
     static func displacementVector(from from: CGPoint, to: CGPoint) -> CGVector
     {
         let dx = to.x - from.x
@@ -59,6 +82,14 @@ extension CGPoint
         return CGVector(dx: dx, dy: dy)
     }
 
+    /**
+     Calculates the distance between two points.
+     
+     - parameter p1: The first point.
+     - parameter p1: The second point.
+     
+     - returns: The scalar representing the distance between `p1` and `p2`.
+     */
     static func distance(p1 p1: CGPoint, p2: CGPoint) -> CGFloat
     {
         let displacementVector = CGPoint.displacementVector(from: p1, to: p2)
@@ -66,6 +97,14 @@ extension CGPoint
         return CGVector.magnitude(vector: displacementVector)
     }
     
+    /**
+     Divides a point by a scalar.
+     
+     - parameter point: The point to divide.
+     - parameter scalar: The scalar with which to divide the point.
+     
+     - returns: The point resulting from having divided `point` by `scalar`.
+     */
     static func divide(point point: CGPoint, scalar: CGFloat) -> CGPoint
     {
         assert(scalar != 0, "Attempt to divide point by 0.")
@@ -79,6 +118,13 @@ extension CGPoint
 
 extension CGVector
 {
+    /**
+     Calculates the sum of a list of vectors.
+     
+     - parameter vectors: The list of vectors that will be summed.
+     
+     - returns: The vector resulting from having summed all input `vectors`.
+     */
     static func add(vectors vectors: CGVector...) -> CGVector
     {
         var dx: CGFloat = 0
@@ -93,6 +139,14 @@ extension CGVector
         return CGVector(dx: dx, dy: dy)
     }
 
+    /**
+     Modifies a vector by clamping its magnitude to a max value.
+     
+     - parameter vector: The vector whose magnitude will be clamped.
+     - parameter min: The maximum allowable length of the vector's magnitude.
+     
+     - returns: The vector resulting from having clamped the magnitude of `vector` by `max`.
+     */
     static func boundMagnitude(vector vector: CGVector, max: CGFloat) -> CGVector
     {
         guard CGVector.magnitude(vector: vector) > max else
@@ -106,6 +160,14 @@ extension CGVector
         return unitVector
     }
 
+    /**
+     Modifies a vector by clamping its magnitude to a min value.
+     
+     - parameter vector: The vector whose magnitude will be clamped.
+     - parameter min: The minimum allowable length of the vector's magnitude.
+     
+     - returns: The vector resulting from having clamped the magnitude of `vector` by `min`.
+     */
     static func boundMagnitude(vector vector: CGVector, min: CGFloat) -> CGVector
     {
         guard CGVector.magnitude(vector: vector) < min else
@@ -118,7 +180,16 @@ extension CGVector
         
         return unitVector
     }
-    
+
+    /**
+     Modifies a vector by clamping its magnitude to a min and max value.
+     
+     - parameter vector: The vector whose magnitude will be clamped.
+     - parameter min: The minimum allowable length of the vector's magnitude.
+     - parameter max: The maximum allowable length of the vector's magnitude.
+     
+     - returns: The vector resulting from having clamped the magnitude of `vector` by `min` and `max`.
+     */
     static func boundMagnitude(vector vector: CGVector, min: CGFloat, max: CGFloat) -> CGVector
     {
         let boundedVector = CGVector.boundMagnitude(vector: vector, min: min)
@@ -126,6 +197,14 @@ extension CGVector
         return CGVector.boundMagnitude(vector: boundedVector, max: max)
     }
 
+    /**
+     Divides a vector by a scalar.
+     
+     - parameter vector: The vector to divide.
+     - parameter scalar: The scalar with which to divide the vector.
+     
+     - returns: The vector resulting from having divided `vector` by `scalar`.
+     */
     static func divide(vector vector: CGVector, scalar: CGFloat) -> CGVector
     {
         assert(scalar != 0, "Attempt to divide vector by 0.")
@@ -136,6 +215,13 @@ extension CGVector
         return CGVector(dx: dx, dy: dy)
     }
 
+    /**
+     Calculates the magnitude of a vector.
+     
+     - parameter vector: The vector whose magnitude will be calculated.
+     
+     - returns: The magnitude of `vector`.
+     */
     static func magnitude(vector vector: CGVector) -> CGFloat
     {
         let x = pow(vector.dx, 2)
@@ -146,6 +232,14 @@ extension CGVector
         return sqrt(sum)
     }
 
+    /**
+     Multiplies a vector by a scalar.
+     
+     - parameter vector: The vector to multiply.
+     - parameter scalar: The scalar by which to multiply the vector.
+     
+     - returns: The vector resulting from having multiplied `vector` by `scalar`.
+     */
     static func multiply(vector vector: CGVector, scalar: CGFloat) -> CGVector
     {
         let dx = vector.dx * scalar
@@ -154,6 +248,13 @@ extension CGVector
         return CGVector(dx: dx, dy: dy)
     }
     
+    /**
+     Normalizes a vector.
+     
+     - parameter vector: The vector to normalize.
+     
+     - returns: The vector resulting from having normalized `vector`.
+     */
     static func normalize(vector vector: CGVector) -> CGVector
     {
         let magnitude = CGVector.magnitude(vector: vector)
@@ -162,6 +263,14 @@ extension CGVector
         return unitVector
     }
     
+    /**
+     Subtracts one vector from another.
+     
+     - parameter v1: The vector to subtract `v2` from.
+     - parameter v2: The vector to subtract from `v1`.
+     
+     - returns: The vector resulting from having subtracted `v2` from `v1`.
+     */
     static func subtract(v1 v1: CGVector, v2: CGVector) -> CGVector
     {
         let dx = v1.dx - v2.dx

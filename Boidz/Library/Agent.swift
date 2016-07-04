@@ -42,8 +42,11 @@ protocol Agent: Equatable
     /// The position of the agent.
     var position: CGPoint { get set }
 
-    /// The velocity of the agent.
+    /// The velocity of the agent. Used to modify the agent's position.
     var velocity: CGVector { get set }
+
+    /// The velocity of the agent at the previous iteration of the simulation.
+    var previousVelocity: CGVector { get set }
     
     /// A set of attributes that define how the agent navigates in space.
     var attributes: AgentAttributes { get set }
@@ -61,7 +64,7 @@ protocol AgentAttributes
     /// A value between 0 and 1. An agent's separation vector is multiplied by this weight to achieve a dampened separation.
     var separationWeight: CGFloat { get }
 
-    /// A value between 0 and 1.
+    /// A value between 0 and 1. An agent's bounding vector is multiplied by this weight to achieve a dampened bounding.
     var boundingWeight: CGFloat { get }
     
     /// The radius of a circle with center equal to the agent's position. This circle represents the agent's field of awareness.

@@ -31,6 +31,7 @@ import SpriteKit
 class AgentNode: SKShapeNode, Agent
 {
     var identifier = NSProcessInfo.processInfo().globallyUniqueString
+    
     var velocity: CGVector
     {
         didSet
@@ -39,11 +40,14 @@ class AgentNode: SKShapeNode, Agent
         }
     }
 
+    var previousVelocity: CGVector
+
     var attributes: AgentAttributes
 
     init(position: CGPoint, velocity: CGVector, attributes: AgentAttributes)
     {
         self.velocity = velocity
+        self.previousVelocity = .zero
         self.attributes = attributes
         
         super.init()

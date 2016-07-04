@@ -65,6 +65,7 @@ class Simulation<T: Agent>
             
             var updatedAgent = agent
             updatedAgent.position = position
+            updatedAgent.previousVelocity = updatedAgent.velocity
             updatedAgent.velocity = velocity
             
             return updatedAgent
