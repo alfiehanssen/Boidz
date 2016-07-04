@@ -27,6 +27,7 @@
 import Foundation
 import CoreGraphics
 
+// TODO: Add documentation to each element in this file. [AH] 7/4/2016
 // TODO: Keep agent array sorted, insert new agents into proper place. Otherwise we get something like On^2 time. [AH] 6/25/2016
 
 class Simulation<T: Agent>
