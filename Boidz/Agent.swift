@@ -30,6 +30,12 @@ protocol AgentAttributes
     /// A value between 0 and 1
     var cohesionWeight: CGFloat { get }
     
+    /// A value between 0 and 1
+    var separationWeight: CGFloat { get }
+
+    /// A value between 0 and 1
+    var boundingWeight: CGFloat { get }
+
     var maxSeparation: CGFloat { get }
     
     var minSpeed: CGFloat { get }

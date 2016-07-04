@@ -30,7 +30,7 @@ class ViewController: UIViewController, SKSceneDelegate
     {
         guard let view = self.view as? SKView else
         {
-            assertionFailure("Unable to case self.view to SKView.")
+            assertionFailure("Unable to cast self.view to SKView.")
             
             return
         }
@@ -49,20 +49,21 @@ class ViewController: UIViewController, SKSceneDelegate
     
     private func setupSimulation()
     {
-        let position = CGPoint(x: 0, y: 100)
-        let velocity = CGVector(dx: 1, dy: 2)
         let attributes = BirdAttributes()
         
-        let agent1 = AgentNode(position: position, velocity: velocity, attributes: attributes)
-        let agent2 = AgentNode(position: position, velocity: velocity, attributes: attributes)
-        let agent3 = AgentNode(position: position, velocity: velocity, attributes: attributes)
+        var agents = [AgentNode]()
         
-        self.scene.addChild(agent1)
-        self.scene.addChild(agent2)
-        self.scene.addChild(agent3)
+        for i in 0...10
+        {
+            let position = CGPoint(x: i, y: 10)
+            let velocity = CGVector(dx: i, dy: 3)
+
+            let agent = AgentNode(position: position, velocity: velocity, attributes: attributes)
+            self.scene.addChild(agent)
+            agents.append(agent)
+        }
         
         let bounds = self.view.bounds
-        let agents = [agent1, agent2, agent3]
         self.simulation = Simulation(bounds: bounds, agents: agents)
     }
 

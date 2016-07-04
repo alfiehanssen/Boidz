@@ -113,8 +113,12 @@ extension CGVector
 
     static func divide(vector vector: CGVector, scalar: CGFloat) -> CGVector
     {
-        assert(scalar != 0, "Attempt to divide by zero.")
-
+//        assert(scalar != 0, "Attempt to divide by zero.")
+        if scalar == 0
+        {
+            return vector
+        }
+        
         let dx = vector.dx / scalar
         let dy = vector.dy / scalar
         

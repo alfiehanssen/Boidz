@@ -13,7 +13,7 @@ import CoreGraphics
 
 class Simulation<T: Agent>
 {
-    private let boundaryAvoidance: CGFloat = 1
+    private let boundaryAvoidance: CGFloat = 10
     private var bounds: CGRect
     private var agents: [T]
     
@@ -32,17 +32,7 @@ class Simulation<T: Agent>
         let updatedAgents = self.agents.map { (agent) -> T in
             
             let neighbors = self.dynamicType.neighbors(agent: agent, agents: self.agents)
-            
-            let separation = self.dynamicType.separationVector(agent: agent, agents: neighbors)
-            let alignment = self.dynamicType.alignmentVector(agent: agent, agents: neighbors)
-            let cohesion = self.dynamicType.cohesionVector(agent: agent, agents: neighbors)
-            let flocking = CGVector.add(vectors: separation, alignment, cohesion)
-            
-            let bounding = self.dynamicType.boundingVector(agent: agent, bounds: self.bounds)
-            
-            var velocity = CGVector.add(vectors: agent.velocity, flocking, bounding)
-            velocity = CGVector.boundMagnitude(vector: velocity, min: agent.attributes.minSpeed, max: agent.attributes.maxSpeed)
-
+            let velocity = self.velocityVector(agent: agent, neighbors: neighbors)
             let position = CGPoint.displace(point: agent.position, vector: velocity)
             
             var updatedAgent = agent
@@ -59,7 +49,22 @@ class Simulation<T: Agent>
     
     private static func neighbors(agent agent: T, agents: [T]) -> [T]
     {
+        // Distance and field of view
+        
         return agents // TODO: Add the notion of neighborhood. [AH] 6/26/2016
+    }
+    
+    private func velocityVector(agent agent: T, neighbors: [T]) -> CGVector
+    {
+        let separation = self.dynamicType.separationVector(agent: agent, agents: neighbors)
+        let alignment = self.dynamicType.alignmentVector(agent: agent, agents: neighbors)
+        let cohesion = self.dynamicType.cohesionVector(agent: agent, agents: neighbors)        
+        let bounding = self.dynamicType.boundingVector(agent: agent, bounds: self.bounds, boundaryAvoidance: self.boundaryAvoidance)
+        
+        var velocity = CGVector.add(vectors: agent.velocity, separation, alignment, cohesion, bounding)
+        velocity = CGVector.boundMagnitude(vector: velocity, min: agent.attributes.minSpeed, max: agent.attributes.maxSpeed)
+        
+        return velocity
     }
 
     private static func separationVector(agent agent: T, agents: [T]) -> CGVector
@@ -73,11 +78,13 @@ class Simulation<T: Agent>
                 continue
             }
             
-            let displacement = CGPoint.displacementVector(from: agent.position, to: currentAgent.position)
+            var displacement = CGPoint.displacementVector(from: agent.position, to: currentAgent.position)
             let distance = CGVector.magnitude(vector: displacement)
             
             if distance < agent.attributes.maxSeparation
             {
+                displacement = CGVector.normalize(vector: displacement)
+                displacement = CGVector.multiply(vector: displacement, scalar: agent.attributes.separationWeight)
                 separation = CGVector.subtract(v1: separation, v2: displacement)
             }
         }
@@ -104,6 +111,7 @@ class Simulation<T: Agent>
         
         alignment = CGVector.divide(vector: alignment, scalar: CGFloat(scalar))
         alignment = CGVector.subtract(v1: alignment, v2: agent.velocity)
+        alignment = CGVector.normalize(vector: alignment)
         alignment = CGVector.multiply(vector: alignment, scalar: agent.attributes.alignmentWeight)
         
         return alignment
@@ -129,16 +137,16 @@ class Simulation<T: Agent>
         let target = CGPoint.divide(point: center, scalar: CGFloat(scalar))
         
         var cohesion = CGPoint.displacementVector(from: agent.position, to: target)
+        cohesion = CGVector.normalize(vector: cohesion)
         cohesion = CGVector.multiply(vector: cohesion, scalar: agent.attributes.cohesionWeight)
         
         return cohesion
     }    
 
-    private static func boundingVector(agent agent: T, bounds: CGRect) -> CGVector
+    private static func boundingVector(agent agent: T, bounds: CGRect, boundaryAvoidance: CGFloat) -> CGVector
     {
         // TODO: Inject this value? Make it stronger the further across the boundaries they are? [AH] 6/26/2016
         
-        let boundaryAvoidance: CGFloat = 1
         var boundingVector = CGVector.zero
         
         if agent.position.x < bounds.origin.x
@@ -160,6 +168,9 @@ class Simulation<T: Agent>
         {
             boundingVector.dy = -boundaryAvoidance
         }
+        
+        boundingVector = CGVector.normalize(vector: boundingVector)
+        boundingVector = CGVector.multiply(vector: boundingVector, scalar: agent.attributes.boundingWeight)
 
         return boundingVector
     }
