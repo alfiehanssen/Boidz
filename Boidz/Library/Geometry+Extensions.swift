@@ -287,7 +287,7 @@ extension CGVector
      
      - returns: The scalar dot product.
      */
-    static func dotProduct(v1 v1: CGVector, v2: CGVector) -> CGFloat // TODO: Test this. [AH] 7/5/2016
+    static func dotProduct(v1 v1: CGVector, v2: CGVector) -> CGFloat 
     {
         return (v1.dx * v2.dx) + (v1.dy * v2.dy)
     }

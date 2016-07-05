@@ -183,6 +183,17 @@ class BoidzTests: XCTestCase
         XCTAssert(subVector.dy == -3, "dy is expected to be -3")
     }
     
+    func testVectorDotProduct()
+    {
+        let v1 = CGVector(dx: 0, dy: 5)
+        let v2 = CGVector(dx: 10, dy: 8)
+        
+        let dotProduct = CGVector.dotProduct(v1: v1, v2: v2)
+        let expectedValue = (v1.dx * v2.dx) + (v1.dy * v2.dy)
+        
+        XCTAssert(dotProduct == expectedValue, "Dot product is expected to be `expectedValue`")
+    }
+    
     func testAngle()
     {
         var v1 = CGVector(dx: 0, dy: 5)
