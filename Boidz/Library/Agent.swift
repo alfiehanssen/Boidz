@@ -67,14 +67,20 @@ protocol AgentAttributes
     /// A value between 0 and 1. An agent's bounding vector is multiplied by this weight to achieve a dampened bounding.
     var boundingWeight: CGFloat { get }
     
-    /// The radius of a circle with center equal to the agent's position. This circle represents the agent's field of awareness.
+    
+    /// The radius of a circle with center equal to the agent's position. This circle represents the agent's cirlce of awareness.
     var neighborhoodRadius: CGFloat { get }
 
+    /// A value between 0 and 360. The angle (in degrees) that defines the agent's field of view.
     var neighborhoodAngle: CGFloat { get }
 
+    
+    /// The magnitude of the random displacement vector that is used to calculate the wander steering force.
     var wanderRate: CGFloat { get }
     
+    /// The radius of the sphere used to determine the magnitude of the wander steering vector (after wanderRate has been incorporated).
     var wanderStrength: CGFloat { get }
+    
     
     /// The distance an agent can be to a neighbor before it begins to navigate away from the neighbor (via a separation vector).
     var minSeparation: CGFloat { get }

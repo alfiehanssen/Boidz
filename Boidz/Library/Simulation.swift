@@ -115,7 +115,7 @@ class Simulation<T: Agent>
                 }
             }
         }
-        
+                
         return neighbors
     }
 
@@ -167,28 +167,15 @@ class Simulation<T: Agent>
      */
     private static func wanderVector(agent agent: T) -> CGVector
     {
-        var wander = CGVector.zero
+        let displacement = CGVector.random(magnitude: agent.attributes.wanderRate)
 
-        // TODO: Calculate the wander force. [AH] 7/4/2016
+        var wander = CGVector.normalize(vector: agent.velocity)
+        wander = CGVector.multiply(vector: wander, scalar: agent.attributes.wanderStrength)
+        wander = CGVector.add(vectors: wander, displacement)
         
         return wander
     }
     
-//- (CGPoint)wanderingForce
-//{
-//    CGPoint n = CGPointMake( (float)random() / RAND_MAX, (float)random() / RAND_MAX );
-//    n = ccpSub(n, ccp(.5, .5));
-//    n = ccpNormalize(n);
-//
-//    CGPoint r_noise = ccpMult(n, ((AnimalSpecies *)self.species).k_noise);
-//
-//    CGPoint force = ccpAdd(self.previousWander, r_noise);
-//    force = ccpMult( ccpNormalize(force), ((AnimalSpecies *)self.species).k_wander);
-//    force = ccpAdd(self.velocity, force);
-//    
-//    return force;
-//}
-
     /**
      Calculates the separation steering vector for an agent with respect to it's neighbors.
      

@@ -300,12 +300,37 @@ extension CGVector
      
      - returns: The angle in degrees between `v1` and `v2`.
      */
-    static func angle(v1 v1: CGVector, v2: CGVector) -> CGFloat // TODO: Test this. [AH] 7/5/2016
+    static func angle(v1 v1: CGVector, v2: CGVector) -> CGFloat
     {
         let normalized1 = CGVector.normalize(vector: v1)
         let normalized2 = CGVector.normalize(vector: v2)
         let dotProduct = CGVector.dotProduct(v1: normalized1, v2: normalized2)
         
         return acos(dotProduct) * (180 / CGFloat(M_PI))
+    }
+    
+    /**
+     Returns a vector with specified `magnitude` pointing in a random direction.
+     
+     - parameter magnitude: The magnitude to apple to the resulting vector.
+     
+     - returns: A vector pointing in a random direction with magnitude equal to `magnitude`.
+     */
+    static func random(magnitude magnitude: CGFloat) -> CGVector // TODO: Test this. [AH] 7/5/2016
+    {
+        let randomX = CGFloat(arc4random())
+        let randomY = CGFloat(arc4random())
+        let maxRandom = CGFloat(UINT32_MAX)
+        
+        let maxDegrees: CGFloat = 360
+        let maxRadians = maxDegrees * (CGFloat(M_PI) / 180)
+        
+        let dx = cos((randomX / maxRandom) * maxRadians)
+        let dy = sin((randomY / maxRandom) * maxRadians)
+        
+        let vector = CGVector(dx: dx, dy: dy)
+        let normal = CGVector.normalize(vector: vector)
+
+        return CGVector.multiply(vector: normal, scalar: magnitude)
     }
 }
