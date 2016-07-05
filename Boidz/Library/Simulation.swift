@@ -83,7 +83,7 @@ class Simulation<T: Agent>
     // MARK: Private API
     
     /**
-     Given a set of agents and a unique member of that group, calculates the subset of agents within a certain proximity of this member.
+     Given a set of agents and a unique member of that group, calculates the subset of agents within a certain proximity and angle i.e. field of view) of this member.
      
      - parameter agent: The agent whose neighbors will be identified.
      - parameter neighbors: The set of agents from which neighbors will be identified.
@@ -92,18 +92,27 @@ class Simulation<T: Agent>
      */
     private static func neighbors(agent agent: T, agents: [T]) -> [T]
     {
-        // TODO: Calculate neighbors using distance and field of view instead of just distance. [AH] 7/4/2016
-
         var neighbors = [T]()
         
         for neighbor in agents
         {
+            if neighbor == agent
+            {
+                continue
+            }
+
             let displacement = CGPoint.displacementVector(from: agent.position, to: neighbor.position)
             let distance = CGVector.magnitude(vector: displacement)
             
+            // Determine if the potential neighbor is within a certain distance of agent
             if distance < agent.attributes.neighborhoodRadius
             {
-                neighbors.append(neighbor)
+                // Determine if the potential neighbor is within the agent's field of view
+                let angle = CGVector.angle(v1: agent.velocity, v2: displacement)
+                if angle < agent.attributes.neighborhoodAngle / 2
+                {
+                    neighbors.append(neighbor)
+                }
             }
         }
         

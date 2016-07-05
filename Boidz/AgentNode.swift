@@ -98,6 +98,11 @@ struct BirdAttributes: AgentAttributes
     var boundingWeight: CGFloat = 0.5
     
     var neighborhoodRadius: CGFloat = 40
+    var neighborhoodAngle: CGFloat = 180
+    
+    var wanderRate: CGFloat = 0
+    var wanderStrength: CGFloat = 0
+
     var minSeparation: CGFloat = 20
     var minSpeed: CGFloat = 2
     var maxSpeed: CGFloat = 5

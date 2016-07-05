@@ -69,6 +69,12 @@ protocol AgentAttributes
     
     /// The radius of a circle with center equal to the agent's position. This circle represents the agent's field of awareness.
     var neighborhoodRadius: CGFloat { get }
+
+    var neighborhoodAngle: CGFloat { get }
+
+    var wanderRate: CGFloat { get }
+    
+    var wanderStrength: CGFloat { get }
     
     /// The distance an agent can be to a neighbor before it begins to navigate away from the neighbor (via a separation vector).
     var minSeparation: CGFloat { get }

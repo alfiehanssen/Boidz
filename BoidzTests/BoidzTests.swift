@@ -182,4 +182,22 @@ class BoidzTests: XCTestCase
         XCTAssert(subVector.dx == -10, "dx is expected to be -10")
         XCTAssert(subVector.dy == -3, "dy is expected to be -3")
     }
+    
+    func testAngle()
+    {
+        var v1 = CGVector(dx: 0, dy: 5)
+        var v2 = CGVector(dx: 0, dy: 5)
+        var angle = CGVector.angle(v1: v1, v2: v2)
+        XCTAssert(angle == 0, "Angle is expected to be 0.")
+
+        v1 = CGVector(dx: 0, dy: 5)
+        v2 = CGVector(dx: 0, dy: -5)
+        angle = CGVector.angle(v1: v1, v2: v2)
+        XCTAssert(angle == 180, "Angle is expected to be 180.")
+    
+        v1 = CGVector(dx: 0, dy: 5)
+        v2 = CGVector(dx: 5, dy: 0)
+        angle = CGVector.angle(v1: v1, v2: v2)
+        XCTAssert(angle == 90, "Angle is expected to be 90.")
+    }
 }

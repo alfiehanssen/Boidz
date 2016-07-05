@@ -278,4 +278,34 @@ extension CGVector
         
         return CGVector(dx: dx, dy: dy)
     }
+    
+    /**
+     Computes the dot product of two vectors.
+     
+     - parameter v1: The first vector.
+     - parameter v2: The second vector.
+     
+     - returns: The scalar dot product.
+     */
+    static func dotProduct(v1 v1: CGVector, v2: CGVector) -> CGFloat // TODO: Test this. [AH] 7/5/2016
+    {
+        return (v1.dx * v2.dx) + (v1.dy * v2.dy)
+    }
+
+    /**
+     Computes the angle in degrees between two vectors.
+     
+     - parameter v1: The first vector.
+     - parameter v2: The second vector.
+     
+     - returns: The angle in degrees between `v1` and `v2`.
+     */
+    static func angle(v1 v1: CGVector, v2: CGVector) -> CGFloat // TODO: Test this. [AH] 7/5/2016
+    {
+        let normalized1 = CGVector.normalize(vector: v1)
+        let normalized2 = CGVector.normalize(vector: v2)
+        let dotProduct = CGVector.dotProduct(v1: normalized1, v2: normalized2)
+        
+        return acos(dotProduct) * (180 / CGFloat(M_PI))
+    }
 }
